@@ -13,7 +13,7 @@ interface SutTypes{
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
-      return false
+      return true
     }
   }
   return new EmailValidatorStub()
@@ -131,7 +131,7 @@ describe('SignUp Controller', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 
-  test('Should coll EmailValidator with correct email', () => {
+  test('Should call EmailValidator with correct email', () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     const httpRequest = {
@@ -164,8 +164,8 @@ describe('SignUp Controller', () => {
     expect(httpResponse.body).toEqual(new ServerError())
   })
 
-  test('Should coll addAccount with correct values', () => {
-    /* const { sut, addAccountStub } = makeSut()
+  test('Should call addAccount with correct values', () => {
+    const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
     const httpRequest = {
       body: {
@@ -175,11 +175,11 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
-    sut.handle(httpRequest) */
-    /* expect(addSpy).toHaveBeenCalledWith({
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@email.com',
       password: 'any_password'
-    }) */
+    })
   })
 })
